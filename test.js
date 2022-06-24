@@ -9,41 +9,20 @@
 //have computer make moves as if it were human
 
 
-
+const gameState = [null, null, null, null ,null, null, null, null, null];
 const playerX = "X";
 const playerO = "O";
+const winningCombinations = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [2, 4, 6]
+ ];
 
-
-const xArray = [];
-const oArray = [];
-
-const gameState = {
-  players: ['x', 'o'],
-  board: [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null]
-  ]
- 
-}
-
-
-// console.log(xArray)
- 
-// let initialState;
-
-// function buildInitialState() {
-  
-// }
-
-// function renderState() {
-
-// }
-
-// // maybe a dozen or so helper functions for tiny pieces of the interface
-
-// // listeners
-const boxes = Array.from(document.getElementsByClassName('tile'));
+// const boxes = Array.from(document.getElementsByClassName('tile'));
 const board = document.getElementById('board');
 
 board.addEventListener('click', onBoardClick);
@@ -54,23 +33,21 @@ function onBoardClick (event){
     } 
     if(gameState.CurrentPlayer === playerX){
       clickedTile.innerText = "X";
-      xArray.push(clickedTile.id);
-      //checker function - if X wins
+      let id = clickedTile.id;
+      gameState[id] = "X"
+    //   gameChecker();
       gameState.CurrentPlayer = playerO;
     }
     else{
       clickedTile.innerText = "O";
-      oArray.push(clickedTile.id);
-      //checker function -- if O wins
+      let id = clickedTile.id;
+      gameState[id] = "O"
+    //   gameChecker();
       gameState.CurrentPlayer = playerX;
     }
   }
-  function onCheckBox(element){
-    checkedBoxes.push({box:element.id, player: CurrentPlayer});
-    checkElement(element);
 
-  }
-  console.log(boxes);
+//   
 const resetButton = document.getElementById('reset_button');
 
 
@@ -86,6 +63,8 @@ resetButton.addEventListener("click", startGame);
   document.getElementById('7').innerText = "";
   document.getElementById('8').innerText = "";
 
+  gameState = [null, null, null, null ,null, null, null, null, null];
+
   let firstPlayer = Math.random(); 
   if (firstPlayer < 0.5){
     return 'X';
@@ -94,29 +73,19 @@ resetButton.addEventListener("click", startGame);
   }
   let CurrentPlayer = firstPlayer;
  }
- 
 
-//   // update state, maybe with another dozen or so helper functions...
+function gameChecker(){
+        for (let i = 0; i <= 7; i++){
+            const win = winningCombinations[i];
+            let a = gameState[win[0]];
+            let b = gameState[win[1]];
+            let c = gameState[win[2]]
+            if (a === '' || b === '' || c === '')
+            continue;
+    }
+    if (a === b && b === c){
+        roundWon = true;
 
-//   renderState() // show the user the new state
-// }
-
-
-
-
-// // }
-// function gameChecker (){
- 
-
-// }
-// const winningCombinations = [
-//     [0, 1, 2]
-//     [3, 4, 5]
-//     [6, 7, 8]
-//     [0, 3, 6]
-//     [1, 4, 7]
-//     [2, 5, 8]
-//     [0, 4, 8]
-//     [2, 4, 6]
-// ]
-
+        console.log(roundWon)
+    }
+} 
