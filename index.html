@@ -10,6 +10,12 @@
 </head>
 <body>
     <h1>Tic-Tac-Toe</h1>
+    <form>
+        <input type="radio" id="oneButton" name="game_type" value="HTML">
+        <label for="Single">One Player Game</label><br> 
+        <input type="radio" id="twoButton" name="game_type" value="HTML">
+        <label for="Double">Two Player Game</label><br>
+      </form>
     <div id="board">
         <div class="tile bottom-border right-border" id="0"></div>
         <div class="tile bottom-border right-border" id="1"></div>
@@ -22,9 +28,21 @@
         <div class="tile" id="8"></div>
     </div>
         <div id="player-box">
-            <div class="players" id = "player-one"></div>
-            <div class="players" id = "vs.">vs.</div>
-            <div class="players" id = "player-two"></div>
+            <form id = "playerOne">
+                <label for="name">Player One Name:</label><br>
+                <input type="text" id="oneName" name="fname">
+                <!-- <input type="submit" value="Submit" id="buttonOne"><br> -->
+            </form>
+            <div id="vs">vs.</div>
+            <form id = "playerTwo">
+                <label for="name">Player Two Name:</label><br>
+                <input type="text" id="twoName" name="fname">
+                <!-- <input type="submit" value="Submit" id="buttonTwo"><br> -->
+            </form>
+             <div id="Computer">Computer</div>
+             <div id="playerOneName"></div>
+             <div id="playerTwoName"></div>
+                    
         </div>
         <button id="reset_button">Restart</button>
 </body>
