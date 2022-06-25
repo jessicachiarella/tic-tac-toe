@@ -58,11 +58,9 @@ form{
     color: white;
     display: flex;
     flex-direction: row;
-    justify-content: center;
-}
-
-.players{
     font-size: 30px;
+    font-weight: bold;
+    justify-content: center;
 }
 
 #reset_button{
@@ -83,4 +81,5 @@ form{
     font-size: 30px;
     padding: 15px;
     text-align:center;
+    padding-bottom: 20px;
 }

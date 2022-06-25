@@ -1,7 +1,4 @@
-//enter names and have them displayed
-//check for wins or draws
-//be told of a win or a draw
-//if one player: see computer as opponent
+
 //have computer make moves as if it were human
 
 let gameState = ['', '', '', '', '', '', '', '', ''];
@@ -16,8 +13,10 @@ const winningCombinations = [
   [2, 5, 8],
   [2, 4, 6],
 ];
+const board = document.getElementById("board");
 const onePlayer = document.getElementById("oneButton");
 const twoPlayer = document.getElementById("twoButton");
+const resetButton = document.getElementById("reset_button");
 
 document.getElementById("playerTwo").hidden = true;
 document.getElementById("Computer").hidden = false;
@@ -34,36 +33,18 @@ function twoClick(event) {
   document.getElementById("Computer").hidden = true;
 }
 
-oneName.addEventListener("keypress", (event) => {
+oneName.addEventListener("keypress", keyPress);
+function keyPress(event) {
   if(event.key==="Enter" && oneName.value.length >0){
     playerOne.innerText = oneName.value;
-    playerOne.style.color = "white";
-    playerOne.style.fontSize = "30px";
-    playerOne.style.fontWeight = "bold";
-    playerOne.style.padding = "15px";
   }
-})
-twoName.addEventListener("keypress", (event) => {
+}
+twoName.addEventListener("keypress", keyPressTwo);
+function keyPressTwo(event) {
   if(event.key==="Enter" && twoName.value.length >0){
     playerTwo.innerText = twoName.value;
-    playerTwo.style.color = "white";
-    playerTwo.style.fontSize = "30px";
-    playerTwo.style.fontWeight = "bold";
-    playerTwo.style.padding = "15px";
   }
-})
-  
-
-
-function winMessage(){
-  let text = "Player ${currenPlayer} Wins!";
 }
-function drawMessage(){
-  let text = "It's a Draw!"
-}
-
-// const boxes = Array.from(document.getElementsByClassName('tile'));
-const board = document.getElementById("board");
 
 board.addEventListener("click", onBoardClick);
 function onBoardClick(event) {
@@ -75,17 +56,18 @@ function onBoardClick(event) {
     clickedTile.innerText = "X";
     let id = clickedTile.id;
     gameState[id] = "X";
+    gameChecker();
     gameState.CurrentPlayer = playerO;
   } else {
     clickedTile.innerText = "O";
     let id = clickedTile.id;
     gameState[id] = "O";
+    gameChecker();
     gameState.CurrentPlayer = playerX;
   }
-  gameChecker();
+  
 }
-//
-const resetButton = document.getElementById("reset_button");
+
 
 resetButton.addEventListener("click", startGame);
 function startGame() {
@@ -111,23 +93,32 @@ function startGame() {
 }
 
 function gameChecker() {
-  // let roundWon = false;
-  for (let i = 0; i <= 7; i++) {
-    // let win = winningCombinations[i];
-    let a = gameState[winningCombinations[0]];
-    let b = gameState[winningCombinations[1]];
-    let c = gameState[winningCombinations[2]];
-    if (a === "" || b === "" || c === "") continue;
-  }
-  if (a === b && a === c) {
+  let roundWon = false;
+  for (let i = 0; i < 7; i++) {
+    const winCheck = winningCombinations[i];
+    let a = gameState[winCheck[0]];
+    let b = gameState[winCheck[1]];
+    let c = gameState[winCheck[2]];
+
+    if (a === "" || b === "" || c === "") {
+    roundWon = false;
+    continue;
+    }  
+    if (a === b && b === c) {
     roundWon = true;
-    return winMessage;
   }
-  let draw = !gameState.includes('');
-  if (draw){
-    return drawMessage;
-  }
-}
+    if(roundWon){
+      alert("We have a winner!");
+    }
+    else {
+      let draw = !gameState.includes("");
+      if (draw){
+        alert("It's a draw!"); 
+        startGame();
+      }
+    }
+  
+}}
 
 //computer picks a random square, checks if it's occupied, if so, pick another random square
 
