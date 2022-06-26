@@ -1,6 +1,6 @@
 let gameState = ["", "", "", "", "", "", "", "", ""];
-const playerX = "X";
-const playerO = "O";
+const player1 = "X";
+const player2 = "O";
 const winningCombinations = [
   [0, 1, 2],
   [3, 4, 5],
@@ -50,18 +50,18 @@ function onBoardClick(event) {
   if (clickedTile.innerText != "") {
     return;
   }
-  if (gameState.CurrentPlayer === playerX) {
+  if (gameState.CurrentPlayer === player1) {
     clickedTile.innerText = "X";
     let id = clickedTile.id;
     gameState[id] = "X";
     gameChecker();
-    gameState.CurrentPlayer = playerO;
+    gameState.CurrentPlayer = player2;
   } else {
     clickedTile.innerText = "O";
     let id = clickedTile.id;
     gameState[id] = "O";
     gameChecker();
-    gameState.CurrentPlayer = playerX;
+    gameState.CurrentPlayer = player1;
   }
 }
 
@@ -79,13 +79,11 @@ function startGame() {
 
   gameState = ["", "", "", "", "", "", "", "", ""];
 
-  let firstPlayer = Math.random();
-  if (firstPlayer < 0.5) {
-    return "X";
+  if (gameState.CurrentPlayer === player2) {
+    gameState.CurrentPlayer === player1;
   } else {
-    return "O";
+    gameState.CurrentPlayer === player2;
   }
-  let CurrentPlayer = firstPlayer;
 }
 
 function gameChecker() {
