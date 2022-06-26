@@ -1,101 +1,116 @@
-//enter names and have them displayed
-
-//take turns placing marks in empty spaces
-//not be able to place marks in occupied spaces
-//check for wins or draws
-//be told of a win or a draw
-//start the game over without having to restart the browser
-//if one player: see computer as opponent
-//have computer make moves as if it were human
-
-
-
+let gameState = ["", "", "", "", "", "", "", "", ""];
 const playerX = "X";
 const playerO = "O";
+const winningCombinations = [
+  [0, 1, 2],
+  [3, 4, 5],
+  [6, 7, 8],
+  [0, 3, 6],
+  [1, 4, 7],
+  [2, 5, 8],
+  [2, 4, 6],
+  [0, 4, 8],
+];
+const board = document.getElementById("board");
+const onePlayer = document.getElementById("oneButton");
+const twoPlayer = document.getElementById("twoButton");
+const resetButton = document.getElementById("reset_button");
 
+document.getElementById("playerTwo").hidden = true;
+document.getElementById("Computer").hidden = false;
 
-
-
-const gameState = {
-  players: ['x', 'o'],
-  board: [
-    [null, null, null],
-    [null, null, null],
-    [null, null, null]
-  ]
+onePlayer.addEventListener("click", oneClick);
+function oneClick() {
+  document.getElementById("playerTwo").hidden = true;
+  document.getElementById("Computer").hidden = false;
 }
- 
 
- 
-// let initialState;
+twoPlayer.addEventListener("click", twoClick);
+function twoClick() {
+  document.getElementById("playerTwo").hidden = false;
+  document.getElementById("Computer").hidden = true;
+}
 
-// function buildInitialState() {
-  
-// }
-
-// function renderState() {
-
-// }
-
-// // maybe a dozen or so helper functions for tiny pieces of the interface
-
-// // listeners
-const board = document.getElementById('board');
-
-board.addEventListener('click', onBoardClick);
-function onBoardClick (event){
-    let clickedTile = event.target;
-    if(clickedTile.innerText != ""){
-      return;
-    } 
-    if(gameState.CurrentPlayer === playerX){
-      clickedTile.innerText = "X"
-      gameState.CurrentPlayer = playerO;
-    }
-    else{
-      clickedTile.innerText = "O";
-      gameState.CurrentPlayer = playerX;
-    }
+oneName.addEventListener("keypress", keyPress);
+function keyPress(event) {
+  if (event.key === "Enter" && oneName.value.length > 0) {
+    playerOne.innerText = oneName.value;
   }
+}
+twoName.addEventListener("keypress", keyPressTwo);
+function keyPressTwo(event) {
+  if (event.key === "Enter" && twoName.value.length > 0) {
+    playerTwo.innerText = twoName.value;
+  }
+}
 
-  
-const resetButton = document.getElementById('reset_button');
-
+board.addEventListener("click", onBoardClick);
+function onBoardClick(event) {
+  let clickedTile = event.target;
+  if (clickedTile.innerText != "") {
+    return;
+  }
+  if (gameState.CurrentPlayer === playerX) {
+    clickedTile.innerText = "X";
+    let id = clickedTile.id;
+    gameState[id] = "X";
+    gameChecker();
+    gameState.CurrentPlayer = playerO;
+  } else {
+    clickedTile.innerText = "O";
+    let id = clickedTile.id;
+    gameState[id] = "O";
+    gameChecker();
+    gameState.CurrentPlayer = playerX;
+  }
+}
 
 resetButton.addEventListener("click", startGame);
- function startGame (){
-  document.getElementById('0').innerText = "";
-  document.getElementById('1').innerText = "";
-  document.getElementById('2').innerText = "";
-  document.getElementById('3').innerText = "";
-  document.getElementById('4').innerText = "";
-  document.getElementById('5').innerText = "";
-  document.getElementById('6').innerText = "";
-  document.getElementById('7').innerText = "";
-  document.getElementById('8').innerText = "";
+function startGame() {
+  document.getElementById("0").innerText = "";
+  document.getElementById("1").innerText = "";
+  document.getElementById("2").innerText = "";
+  document.getElementById("3").innerText = "";
+  document.getElementById("4").innerText = "";
+  document.getElementById("5").innerText = "";
+  document.getElementById("6").innerText = "";
+  document.getElementById("7").innerText = "";
+  document.getElementById("8").innerText = "";
 
-  let firstPlayer = Math.random(); 
-  if (firstPlayer < 0.5){
-    return 'X';
+  gameState = ["", "", "", "", "", "", "", "", ""];
+
+  let firstPlayer = Math.random();
+  if (firstPlayer < 0.5) {
+    return "X";
   } else {
-    return 'O';
+    return "O";
   }
   let CurrentPlayer = firstPlayer;
- }
- 
+}
 
-//   // update state, maybe with another dozen or so helper functions...
+function gameChecker() {
+  let roundWon = false;
+  for (let i = 0; i < 8; i++) {
+    const winCheck = winningCombinations[i];
+    let a = gameState[winCheck[0]];
+    let b = gameState[winCheck[1]];
+    let c = gameState[winCheck[2]];
 
-//   renderState() // show the user the new state
-// }
-
-
-
-
-// // }
-// function gameChecker (){
- 
-
-
-// }
-
+    if (a === "" || b === "" || c === "") {
+      roundWon = false;
+      continue;
+    }
+    if (a === b && b === c) {
+      roundWon = true;
+    }
+    if (roundWon) {
+      alert("We have a winner!");
+    } else {
+      let draw = !gameState.includes("");
+      if (draw) {
+        alert("It's a draw!");
+        startGame();
+      }
+    }
+  }
+}

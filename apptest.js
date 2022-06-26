@@ -12,6 +12,7 @@ const winningCombinations = [
   [1, 4, 7],
   [2, 5, 8],
   [2, 4, 6],
+  [0, 4, 8]
 ];
 const board = document.getElementById("board");
 const onePlayer = document.getElementById("oneButton");
@@ -32,7 +33,7 @@ function twoClick(event) {
   document.getElementById("playerTwo").hidden = false;
   document.getElementById("Computer").hidden = true;
 }
-
+//Name Form
 oneName.addEventListener("keypress", keyPress);
 function keyPress(event) {
   if(event.key==="Enter" && oneName.value.length >0){
@@ -45,29 +46,59 @@ function keyPressTwo(event) {
     playerTwo.innerText = twoName.value;
   }
 }
+      //one player start
+    function compGame(){
+      let compPlayer = playerO;
+        board.addEventListener("click", onBoardClick);
+    function onBoardClick(event) {
+      let clickedTile = event.target;
+      if (clickedTile.innerText != "") {
+        return;
+      }
+        gameState.CurrentPlayer === playerX
+        clickedTile.innerText = "X";
+        let id = clickedTile.id;
+        gameState[id] = "X";
+        gameChecker();
+        gameState.CurrentPlayer = compPlayer;
+        let compMove = (Math.floor(Math.random() * 9) +1);
+        console.log(compMove);
 
-board.addEventListener("click", onBoardClick);
-function onBoardClick(event) {
-  let clickedTile = event.target;
-  if (clickedTile.innerText != "") {
-    return;
+        let (clickedTile.id) = compMove;
+          if (clickedTile.innerText != ""){
+            return;
+          }
+          else {
+            clickedTile.innerText = "O";
+            let id = clickedTile.id;
+            gameState[id] = "O";
+            gameChecker();
+            gameState.CurrentPlayer = playerX;
+          }
+        }
+      }
+      
+      board.addEventListener("click", onBoardClick);
+    function onBoardClick(event) {
+      let clickedTile = event.target;
+      if (clickedTile.innerText != "") {
+        return;
+      }
+      if (gameState.CurrentPlayer === playerX) {
+        clickedTile.innerText = "X";
+        let id = clickedTile.id;
+        gameState[id] = "X";
+        gameChecker();
+        gameState.CurrentPlayer = playerO;
+      } else {
+        clickedTile.innerText = "O";
+        let id = clickedTile.id;
+        gameState[id] = "O";
+        gameChecker();
+        gameState.CurrentPlayer = playerX;
+    }
+    
   }
-  if (gameState.CurrentPlayer === playerX) {
-    clickedTile.innerText = "X";
-    let id = clickedTile.id;
-    gameState[id] = "X";
-    gameChecker();
-    gameState.CurrentPlayer = playerO;
-  } else {
-    clickedTile.innerText = "O";
-    let id = clickedTile.id;
-    gameState[id] = "O";
-    gameChecker();
-    gameState.CurrentPlayer = playerX;
-  }
-  
-}
-
 
 resetButton.addEventListener("click", startGame);
 function startGame() {
@@ -94,7 +125,7 @@ function startGame() {
 
 function gameChecker() {
   let roundWon = false;
-  for (let i = 0; i < 7; i++) {
+  for (let i = 0; i < 8; i++) {
     const winCheck = winningCombinations[i];
     let a = gameState[winCheck[0]];
     let b = gameState[winCheck[1]];
